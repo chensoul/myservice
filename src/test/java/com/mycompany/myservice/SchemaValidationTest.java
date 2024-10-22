@@ -1,14 +1,16 @@
 package com.mycompany.myservice;
 
+import com.mycompany.myservice.common.ContainersConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTest(
         properties = {
             "spring.jpa.hibernate.ddl-auto=validate",
-            "spring.test.database.replace=none",
-            "spring.datasource.url=jdbc:tc:postgresql:17:///db"
+            "spring.test.database.replace=none"
         })
+@Import(ContainersConfig.class)
 class SchemaValidationTest {
 
     @Test

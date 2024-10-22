@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-	@Override
-	Page<Customer> findAll(Pageable pageable);;
-
+    @Override
+    Page<Customer> findAll(Pageable pageable);
+    ;
 }

@@ -1,6 +1,5 @@
 package com.mycompany.myservice.web.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myservice.exception.CustomerNotFoundException;
 import com.mycompany.myservice.model.query.FindCustomersQuery;
 import com.mycompany.myservice.model.request.CustomerRequest;
