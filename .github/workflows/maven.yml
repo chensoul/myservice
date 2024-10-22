@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         distribution: [ 'temurin' ]
-        java: [ '17' ]
+        java: [ '21' ]
     steps:
       - uses: actions/checkout@v4
 
@@ -29,11 +29,11 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean verify
 
-      - if: ${{ github.ref == 'refs/heads/main' }}
-        name: SonarQube Scan
-        run: ./mvnw compile sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - if: ${{ github.ref == 'refs/heads/main' }}
+#        name: SonarQube Scan
+#        run: ./mvnw compile sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - if: ${{ github.ref == 'refs/heads/main' }}
         name: Build and Publish Docker Image
