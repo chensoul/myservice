@@ -4,8 +4,6 @@ services:
     ports:
       - "8080:8080"
     restart: always
-#    depends_on:
-#      - postgres
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
