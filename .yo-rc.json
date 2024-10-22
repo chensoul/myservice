@@ -1,0 +1,15 @@
+{
+  "generator-springboot": {
+    "appName": "myservice",
+    "packageName": "com.mycompany.myservice",
+    "databaseType": "postgresql",
+    "dbMigrationTool": "flywaydb",
+    "features": [
+      "elk",
+      "monitoring"
+    ],
+    "buildTool": "maven",
+    "packageFolder": "com/mycompany/myservice",
+    "flywayMigrationCounter": 1
+  }
+}
