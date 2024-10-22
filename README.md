@@ -48,10 +48,18 @@ You can also run the application using Maven as follows:
 ./mvnw spring-boot:test-run
 ```
 
+### Run SonarQube
+
+```shell
+$ docker-compose -f docker-compose-sonar.yml up -d
+$ ./gradlew sonarqube -Dsonar.login=admin -Dsonar.password=admin
+```
+
 ### Useful Links
 
 * Swagger UI: http://localhost:8080/swagger-ui.html
 * Actuator Endpoint: http://localhost:8080/actuator
+* Sonarqube UI: http://localhost:9001
 * Prometheus: http://localhost:9090/
 * Grafana: http://localhost:3000/ (admin/admin)
 * Kibana: http://localhost:5601/
