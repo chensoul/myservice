@@ -35,15 +35,15 @@ class CustomerController {
 
     @GetMapping
     PagedResult<CustomerResponse> getAllCustomers(
-            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false)
-                    int pageNo,
+            @RequestParam(value = "pageNumber", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false)
+                    int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false)
                     int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false)
                     String sortBy,
             @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false)
                     String sortDir) {
-        FindCustomersQuery findCustomersQuery = new FindCustomersQuery(pageNo, pageSize, sortBy, sortDir);
+        FindCustomersQuery findCustomersQuery = new FindCustomersQuery(pageNumber, pageSize, sortBy, sortDir);
         return customerService.findAllCustomers(findCustomersQuery);
     }
 

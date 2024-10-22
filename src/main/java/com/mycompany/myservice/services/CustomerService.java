@@ -40,7 +40,7 @@ public class CustomerService {
     }
 
     private Pageable createPageable(FindCustomersQuery findCustomersQuery) {
-        int pageNo = Math.max(findCustomersQuery.pageNo() - 1, 0);
+        int pageNo = Math.max(findCustomersQuery.pageNumber() - 1, 0);
         Sort sort = Sort.by(
                 findCustomersQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
                         ? Sort.Order.asc(findCustomersQuery.sortBy())
