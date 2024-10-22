@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+
     private final CustomerMapper customerMapper;
 
     public PagedResult<CustomerResponse> findAllCustomers(FindCustomersQuery findCustomersQuery) {
