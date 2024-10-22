@@ -10,6 +10,6 @@
     ],
     "buildTool": "maven",
     "packageFolder": "com/mycompany/myservice",
-    "flywayMigrationCounter": 1
+    "flywayMigrationCounter": 2
   }
 }
