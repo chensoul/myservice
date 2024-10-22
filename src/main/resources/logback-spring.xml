@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     <springProperty scope="context" name="appName" source="spring.application.name"/>
 
     <springProperty defaultValue="localhost" name="logstashHost"
-    scope="context" source="application.logstash.host"/>
+                    scope="context" source="application.logstash.host"/>
 
     <appender class="net.logstash.logback.appender.LogstashTcpSocketAppender" name="stash">
         <!--<destination>localhost:5000</destination>-->
@@ -37,15 +37,15 @@
     </appender>
     <springProfile name="default">
         <root level="INFO">
-            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
     <springProfile name="!default">
         <property name="LOG_FILE" value="logs/${appName}.log"/>
-        <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+        <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
         <root level="INFO">
-            <appender-ref ref="FILE" />
-            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/>
             <appender-ref ref="stash"/>
         </root>
     </springProfile>
