@@ -7,8 +7,8 @@ import java.util.List;
 public record PagedResult<T>(
         List<T> data,
         long totalElements,
-		long pageNumber,
-		long totalPages,
+        long pageNumber,
+        long totalPages,
         boolean isFirst,
         boolean isLast,
         boolean hasNext,
@@ -19,9 +19,9 @@ public record PagedResult<T>(
                 page.getTotal(),
                 page.getCurrent(),
                 page.getPages(),
-				page.getCurrent()==1,
-				page.getCurrent()==page.getPages(),
-				((Page)page).hasNext(),
-				((Page)page).hasPrevious());
+                page.getCurrent() == 1,
+                page.getCurrent() == page.getPages(),
+                ((Page) page).hasNext(),
+                ((Page) page).hasPrevious());
     }
 }

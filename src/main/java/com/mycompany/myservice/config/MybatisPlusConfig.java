@@ -8,9 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MybatisPlusConfig {
 
-	@Bean
-	public PaginationInnerInterceptor paginationInterceptor() {
-		return new PaginationInnerInterceptor(DbType.POSTGRE_SQL);
-	}
-
+    @Bean
+    public PaginationInnerInterceptor paginationInterceptor() {
+        return new PaginationInnerInterceptor(DbType.POSTGRE_SQL);
+    }
 }

@@ -14,28 +14,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Customer {
 
-	// @Id
-	@TableId
-	// @GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long id;
+    // @Id
+    @TableId
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-	// @Column(nullable = false)
-	@TableField
-	private String text;
+    // @Column(nullable = false)
+    @TableField
+    private String text;
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || this.getClass() != o.getClass())
-			return false;
-		Customer customer = (Customer) o;
-		return id != null && Objects.equals(id, customer.id);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id != null && Objects.equals(id, customer.id);
+    }
 
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
-	}
-
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
