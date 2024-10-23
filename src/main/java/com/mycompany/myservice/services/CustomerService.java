@@ -1,5 +1,9 @@
 package com.mycompany.myservice.services;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mycompany.myservice.entities.Customer;
 import com.mycompany.myservice.exception.CustomerNotFoundException;
 import com.mycompany.myservice.mapper.CustomerMapper;
@@ -8,72 +12,67 @@ import com.mycompany.myservice.model.request.CustomerRequest;
 import com.mycompany.myservice.model.response.CustomerResponse;
 import com.mycompany.myservice.model.response.PagedResult;
 import com.mycompany.myservice.repositories.CustomerRepository;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
-public class CustomerService {
+public class CustomerService extends ServiceImpl<CustomerRepository, Customer> {
+	@Resource
+	private CustomerMapper customerMapper;
 
-    private final CustomerRepository customerRepository;
+	public PagedResult<CustomerResponse> findAllCustomers(FindCustomersQuery findCustomersQuery) {
 
-    private final CustomerMapper customerMapper;
+		// create Pageable instance
+		Page pageable = createPageable(findCustomersQuery);
 
-    public PagedResult<CustomerResponse> findAllCustomers(FindCustomersQuery findCustomersQuery) {
+		IPage<Customer> customersPage = page(pageable);
 
-        // create Pageable instance
-        Pageable pageable = createPageable(findCustomersQuery);
+		List<CustomerResponse> customerResponseList = customerMapper.toResponseList(customersPage.getRecords());
 
-        Page<Customer> customersPage = customerRepository.findAll(pageable);
+		return new PagedResult(customersPage, customerResponseList);
+	}
 
-        List<CustomerResponse> customerResponseList = customerMapper.toResponseList(customersPage.getContent());
+	private Page<Customer> createPageable(FindCustomersQuery findCustomersQuery) {
+		int pageNo = Math.max(findCustomersQuery.pageNumber() - 1, 0);
+		OrderItem orderItem = findCustomersQuery.sortDir().equalsIgnoreCase("asc")
+				? OrderItem.asc(findCustomersQuery.sortBy()) : OrderItem.desc(findCustomersQuery.sortBy());
+		Page page = Page.of(pageNo, findCustomersQuery.pageSize(), true);
+		page.setOptimizeCountSql(false);
+		page.setOrders(List.of(orderItem));
+		return page;
+	}
 
-        return new PagedResult<>(customersPage, customerResponseList);
-    }
+	public Optional<CustomerResponse> findCustomerById(Long id) {
+		return Optional.ofNullable(getById(id)).map(customerMapper::toResponse);
+	}
 
-    private Pageable createPageable(FindCustomersQuery findCustomersQuery) {
-        int pageNo = Math.max(findCustomersQuery.pageNumber() - 1, 0);
-        Sort sort = Sort.by(
-                findCustomersQuery.sortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
-                        ? Sort.Order.asc(findCustomersQuery.sortBy())
-                        : Sort.Order.desc(findCustomersQuery.sortBy()));
-        return PageRequest.of(pageNo, findCustomersQuery.pageSize(), sort);
-    }
+	@Transactional
+	public CustomerResponse saveCustomer(CustomerRequest customerRequest) {
+		Customer customer = customerMapper.toEntity(customerRequest);
+		baseMapper.insert(customer);
+		return customerMapper.toResponse(customer);
+	}
 
-    public Optional<CustomerResponse> findCustomerById(Long id) {
-        return customerRepository.findById(id).map(customerMapper::toResponse);
-    }
+	@Transactional
+	public CustomerResponse updateCustomer(Long id, CustomerRequest customerRequest) {
+		Customer customer = Optional.of(baseMapper.selectById(id)).orElseThrow(() -> new CustomerNotFoundException(id));
 
-    @Transactional
-    public CustomerResponse saveCustomer(CustomerRequest customerRequest) {
-        Customer customer = customerMapper.toEntity(customerRequest);
-        Customer savedCustomer = customerRepository.save(customer);
-        return customerMapper.toResponse(savedCustomer);
-    }
+		// Update the customer object with data from customerRequest
+		customerMapper.mapCustomerWithRequest(customer, customerRequest);
 
-    @Transactional
-    public CustomerResponse updateCustomer(Long id, CustomerRequest customerRequest) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
+		// Save the updated customer object
+		baseMapper.updateById(customer);
 
-        // Update the customer object with data from customerRequest
-        customerMapper.mapCustomerWithRequest(customer, customerRequest);
+		return customerMapper.toResponse(customer);
+	}
 
-        // Save the updated customer object
-        Customer updatedCustomer = customerRepository.save(customer);
+	@Transactional
+	public void deleteCustomerById(Long id) {
+		baseMapper.deleteById(id);
+	}
 
-        return customerMapper.toResponse(updatedCustomer);
-    }
-
-    @Transactional
-    public void deleteCustomerById(Long id) {
-        customerRepository.deleteById(id);
-    }
 }

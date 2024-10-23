@@ -1,15 +1,8 @@
 package com.mycompany.myservice.repositories;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mycompany.myservice.entities.Customer;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
-@Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
-
-    @Override
-    Page<Customer> findAll(Pageable pageable);
-    ;
-}
+@Mapper
+public interface CustomerRepository extends BaseMapper<Customer> {}
