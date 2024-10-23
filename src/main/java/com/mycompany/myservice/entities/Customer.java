@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
-p
+
 	// @Id
 	@TableId
 	// @GeneratedValue(strategy = GenerationType.SEQUENCE)
